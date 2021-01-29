@@ -1,13 +1,16 @@
-html {
-  font-family: $primary-font-family;
-  background-color: $primary-color;
-}
-
 .box1 {
   background-color: $primary-color;
   border-radius: $border-radius;
   border: 2px solid $border1-color;
   color: #fff;
+}
+
+.round {
+  border-radius: 50px;
+}
+
+input, button {
+  outline: 0;
 }
 
 .type-normal-bg-color {

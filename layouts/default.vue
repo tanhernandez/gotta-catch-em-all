@@ -8,7 +8,7 @@
 html {
   font-family: $primary-font-family;
   color: $text-color;
-  overflow: hidden;
+  overflow-x: hidden;
 
   div {
     box-sizing: border-box;

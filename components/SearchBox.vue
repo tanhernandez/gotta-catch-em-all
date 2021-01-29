@@ -4,11 +4,23 @@
       <img src="/images/search-icon.svg" alt="search-icon.svg"/>
     </div>
     <input
+      :class="getBem(blockClass, 'input')"
       type="text"
       v-model="iValue"
       class="round"
       :style="inputStyle"
+      :placeholder="placeholder"
     >
+    <transition name="fade-up">
+      <div
+        v-if="iValue !== ''"
+        :class="getBem(blockClass, 'reset-button')"
+        :ref="getBem(blockClass, 'reset-button')"
+        @click="handleClickReset"
+      >
+        <img src="/images/reset-icon.svg" alt="reset-icon.svg"/>
+      </div>
+    </transition>
   </label>
 </template>
 
@@ -28,6 +40,11 @@ export default {
     width: {
       type: String,
       default: '400px'
+    },
+
+    placeholder: {
+      type: String,
+      default: ''
     }
   },
 
@@ -65,6 +82,29 @@ export default {
         width: this.width
       }
     }
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Component > method
+  |--------------------------------------------------------------------------
+  */
+  methods: {
+
+    /**
+     * @return {void}
+     */
+    handleClickReset () {
+      const button = this.$refs[this.getBem(this.blockClass, 'reset-button')];
+      const cls = 'rotate-animation';
+
+      button.classList.add(cls);
+      this.iValue = '';
+
+      setTimeout(() => {
+        button.classList.remove(cls);
+      }, 800)
+    }
   }
 }
 </script>
@@ -72,24 +112,48 @@ export default {
 <style lang="scss">
 .search-box {
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
 
   &__icon {
     position: absolute;
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
     z-index: 2;
-    padding: 5px;
+    padding: 4px;
     opacity: .5;
+    margin-left: 2px;
   }
 
-  input {
-    box-sizing: border-box;
+  &__input {
     position: relative;
-    min-height: 45px;
+    display: inline-block;
+    box-sizing: border-box;
+    min-height: 47px;
     border: 0;
     background-color: $gray2;
-    padding-left: 45px;
+    padding-left: 47px;
     padding-right: 25px;
+  }
+
+  &__reset-button {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 47px;
+    height: 47px;
+    padding: 5px;
+    cursor: pointer;
+    transition-duration: .8s;
+    transition-property: transform;
+
+    img {
+      opacity: .5;
+    }
+
+    &.rotate-animation {
+      transform: rotate(360deg);
+    }
   }
 }
 </style>

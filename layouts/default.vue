@@ -7,5 +7,11 @@
 <style lang="scss">
 html {
   font-family: $primary-font-family;
+  color: $text-color;
+  overflow: hidden;
+
+  div {
+    box-sizing: border-box;
+  }
 }
 </style>

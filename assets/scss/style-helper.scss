@@ -93,4 +93,24 @@ input, button {
   background-color: $type-shadow;
 }
 
+.fade-up-enter-active, .fade-up-leave-active {
+  transition: all .5s;
+  top: 0;
+}
+
+.fade-up-enter, .fade-up-leave-to /* .fade-leave-active below version 2.1.8 */
+{
+  opacity: 0;
+  top: 10px;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: all .5s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+{
+  opacity: 0;
+}
+
 

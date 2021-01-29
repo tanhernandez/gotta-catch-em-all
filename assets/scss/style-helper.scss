@@ -9,8 +9,92 @@
   border-radius: 50px;
 }
 
-input, button {
+input, button, a, a:hover, a:focus, a:active, a:visited {
   outline: 0;
+}
+
+a, a:hover, a:focus, a:active, a:visited {
+  text-decoration: none;
+}
+
+.type-normal-color {
+  color: $type-normal;
+}
+
+.type-fighting-color {
+  color: $type-fighting;
+}
+
+.type-flying-color {
+  color: $type-flying;
+}
+
+.type-poison-color {
+  color: $type-poison;
+}
+
+.type-ground-color {
+  color: $type-ground;
+}
+
+.type-rock-color {
+  color: $type-rock;
+}
+
+.type-bug-color {
+  color: $type-bug;
+}
+
+.type-ghost-color {
+  color: $type-ghost;
+}
+
+.type-steel-color {
+  color: $type-steel;
+}
+
+.type-fire-color {
+  color: $type-fire;
+}
+
+.type-water-color {
+  color: $type-water;
+}
+
+.type-grass-color {
+  color: $type-grass;
+}
+
+.type-electric-color {
+  color: $type-electric;
+}
+
+.type-psychic-color {
+  color: $type-psychic;
+}
+
+.type-ice-color {
+  color: $type-ice;
+}
+
+.type-dragon-color {
+  color: $type-dragon;
+}
+
+.type-dark-color {
+  color: $type-dark;
+}
+
+.type-fairy-color {
+  color: $type-fairy;
+}
+
+.type-unknown-color {
+  color: $type-unknown;
+}
+
+.type-shadow-color {
+  color: $type-shadow;
 }
 
 .type-normal-bg-color {

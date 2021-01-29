@@ -10,6 +10,7 @@
       class="round"
       :style="inputStyle"
       :placeholder="placeholder"
+      @input="handeInputChange"
     >
     <transition name="fade-up">
       <div
@@ -25,6 +26,8 @@
 </template>
 
 <script>
+import debounce from 'lodash/debounce';
+
 export default {
 
   /*
@@ -94,12 +97,20 @@ export default {
     /**
      * @return {void}
      */
+    handeInputChange: debounce(function () {
+      this.$emit('change', this.iValue);
+    }, 250),
+
+    /**
+     * @return {void}
+     */
     handleClickReset () {
       const button = this.$refs[this.getBem(this.blockClass, 'reset-button')];
       const cls = 'rotate-animation';
 
       button.classList.add(cls);
       this.iValue = '';
+      this.$emit('reset');
 
       setTimeout(() => {
         button.classList.remove(cls);

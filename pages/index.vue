@@ -14,8 +14,8 @@
         <search-box
           v-model="search"
           placeholder="Search for ID, Name, or Type"
-          @change="setFormattedList"
-          @reset="setFormattedList"
+          @change="setSearchValue"
+          @reset="setSearchValue"
         />
       </div>
 
@@ -55,7 +55,6 @@ import PokemonCard from '~/components/PokemonCard';
 import PokeballFloat from '~/components/PokeballFloat';
 import filter from 'lodash/filter';
 import includes from 'lodash/includes';
-import eventBus from 'assets/js/helpers/eventBus';
 
 export default {
 
@@ -79,7 +78,33 @@ export default {
     return {
       blockClass: 'home-page',
       search: '',
-      formattedList: []
+      searchDebounced: ''
+    }
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Component > computed
+  |--------------------------------------------------------------------------
+  */
+  computed: {
+
+    /**
+     * @returns {array}
+     */
+    formattedList () {
+      if (this.searchDebounced !== '') {
+        return filter(this.$store.getters['pokemon/fullList'], (x) => {
+          const q = this.searchDebounced.toLowerCase();
+
+          // noinspection EqualityComparisonWithCoercionJS
+          return includes(x.name, q)
+            || x.id == q
+            || includes(x.types, q);
+        });
+      } else {
+        return this.$store.getters['pokemon/paginatedList'];
+      }
     }
   },
 
@@ -91,21 +116,10 @@ export default {
   methods: {
 
     /**
-     * @return {array}
+     * @return {void}
      */
-    setFormattedList () {
-      if (this.search !== '') {
-        this.formattedList = filter(this.$store.getters['pokemon/fullList'], (x) => {
-          const q = this.search.toLowerCase();
-
-          // noinspection EqualityComparisonWithCoercionJS
-          return includes(x.name, q)
-            || x.id == q
-            || includes(x.types, q);
-        });
-      } else {
-        this.formattedList = this.$store.getters['pokemon/paginatedList'];
-      }
+    setSearchValue () {
+      this.searchDebounced = this.search;
     },
 
     /**
@@ -113,11 +127,11 @@ export default {
      */
     handleClickLoadMore () {
       this.search = '';
+      this.searchDebounced = '';
       this.$store.commit(
         'pokemon/setListPage',
         this.$store.getters['pokemon/listCurrentPage'] + 1
       );
-      this.setFormattedList();
       setTimeout(() => {
         window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
       }, 300);
@@ -128,35 +142,9 @@ export default {
      * @return {void}
      */
     handleClickPokemonCard (id) {
-      this.$store.commit('pokemon/setActivePokemon', id);
       this.$router.push({path: `/pokemon/${id}`});
     },
-
-    /**
-     * @return {void}
-     */
-    handleEventFullListLoaded () {
-      this.setFormattedList();
-    }
   },
-
-  /*
-  |--------------------------------------------------------------------------
-  | Component > mounted
-  |--------------------------------------------------------------------------
-  */
-  mounted () {
-    eventBus.$on('FULL_LIST_LOADED', this.handleEventFullListLoaded);
-  },
-
-  /*
-  |--------------------------------------------------------------------------
-  | Component > beforeDestroy
-  |--------------------------------------------------------------------------
-  */
-  beforeDestroy () {
-    eventBus.$off('FULL_LIST_LOADED', this.handleEventFullListLoaded);
-  }
 }
 </script>
 

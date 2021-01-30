@@ -1,6 +1,8 @@
 import {
   POKEMON as URL_POKEMON,
-  POKEMON_SPECIES as URL_POKEMON_SPECIES
+  POKEMON_SPECIES as URL_POKEMON_SPECIES,
+  POKEMON_TYPE as URL_POKEMON_TYPE,
+  POKEMON_EVOLUTION_CHAIN as URL_POKEMON_EVOLUTION_CHAIN
 } from 'assets/js/constants/url';
 import isNil from 'lodash/isNil';
 import isEmpty from 'lodash/isEmpty';
@@ -191,5 +193,23 @@ export const actions = {
    */
   getPokemonSpecies (context, {id}) {
     return this.$axios({url: `${URL_POKEMON_SPECIES}/${id}`, method: 'GET'});
+  },
+
+  /**
+   * @param {Object} context
+   * @param {int|string} id
+   * @return {Promise|*}
+   */
+  getPokemonType (context, {id}) {
+    return this.$axios({url: `${URL_POKEMON_TYPE}/${id}`, method: 'GET'});
+  },
+
+  /**
+   * @param {Object} context
+   * @param {int} id
+   * @return {Promise|*}
+   */
+  getEvolutionChain (context, {id}) {
+    return this.$axios({url: `${URL_POKEMON_EVOLUTION_CHAIN}/${id}`, method: 'GET'});
   }
 };

@@ -68,7 +68,26 @@ import isNil from 'lodash/isNil';
 import isEmpty from 'lodash/isEmpty';
 import startCase from 'lodash/startCase';
 import forEach from 'lodash/forEach';
+import map from 'lodash/map';
+import forOwn from 'lodash/forOwn';
 import PokemonDetails from '@/components/PokemonDetails';
+
+function getEvolutionRecursive (obj, result = []) {
+  forOwn(obj, (v, k) => {
+    if (k === 'evolves_to' && !isEmpty(v)) {
+      getEvolutionRecursive(v[0], result);
+
+    } else if (k === 'species') {
+      const urlSplit = v.url.split('/');
+      result.push({
+        name: v.name,
+        id: parseInt(urlSplit[urlSplit.length - 2])
+      })
+    }
+  });
+
+  return result;
+}
 
 export default {
 
@@ -90,8 +109,27 @@ export default {
     return {
       blockClass: 'pokemon-id',
       activePokemon: {},
-      pokemonData: {},
+      pokemonData: {
+        strength: [],
+        weakness: [],
+        evolutions: []
+      },
       POKEMON_ART
+    }
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Component > watch
+  |--------------------------------------------------------------------------
+  */
+  watch: {
+    pokemonData (v) {
+      if (!isNil(v.evolution_chain)) {
+        const urlSplit = v.evolution_chain.url.split('/');
+        const id = parseInt(urlSplit[urlSplit.length - 2]);
+        this.setEvolutionChain({id});
+      }
     }
   },
 
@@ -200,17 +238,51 @@ export default {
      * @return {void}
      */
     loadPokemonData () {
-      let promises = [];
-      promises.push(this.$store.dispatch('pokemon/getPokemon', {id: this.pokemonId}));
-      promises.push(this.$store.dispatch('pokemon/getPokemonSpecies', {id: this.pokemonId}));
 
-      Promise.all(promises).then((responses) => {
-        forEach(responses, (r) => {
+      // Get Data
+      let promises1 = [];
+      promises1.push(this.$store.dispatch('pokemon/getPokemon', {id: this.pokemonId}));
+      promises1.push(this.$store.dispatch('pokemon/getPokemonSpecies', {id: this.pokemonId}));
+
+      Promise.all(promises1).then((responses) => {
+        forEach(responses, (r1) => {
           this.pokemonData = {
             ...this.pokemonData,
-            ...r.data
+            ...r1.data
           }
         })
+      });
+
+      // Get Strength and Weakness
+      let promises2 = [];
+      forEach(this.activePokemon.types, (type) => {
+        promises2.push(this.$store.dispatch('pokemon/getPokemonType', {id: type}));
+      });
+
+      Promise.all(promises2).then((responses) => {
+        forEach(responses, (r2) => {
+          this.pokemonData.strength = [
+            ...this.pokemonData.strength,
+            ...map(r2.data.damage_relations.double_damage_to, 'name')
+          ];
+
+          this.pokemonData.weakness = [
+            ...this.pokemonData.weakness,
+            ...map(r2.data.damage_relations.double_damage_from, 'name')
+          ];
+        })
+      });
+    },
+
+    /**
+     * @return {void}
+     */
+    setEvolutionChain (id) {
+      this.$store.dispatch('pokemon/getEvolutionChain', id).then((r) => {
+        const evolutions = getEvolutionRecursive(r.data.chain);
+        if (!isNil(evolutions) && !isEmpty(evolutions)) {
+          this.pokemonData.evolutions = [...evolutions.reverse()];
+        }
       });
     }
   },

@@ -13,7 +13,7 @@
         </p>
         <search-box
           v-model="search"
-          placeholder="Search for Name or ID"
+          placeholder="Search for ID, Name, or Type"
           @change="setFormattedList"
           @reset="setFormattedList"
         />
@@ -94,8 +94,12 @@ export default {
     setFormattedList () {
       if (this.search !== '') {
         this.formattedList = filter(this.$store.getters['pokemon/fullList'], (x) => {
+          const q = this.search.toLowerCase();
+
           // noinspection EqualityComparisonWithCoercionJS
-          return includes(x.name, this.search) || x.id == this.search;
+          return includes(x.name, q)
+            || x.id == q
+            || includes(x.types, q);
         });
       } else {
         this.formattedList = this.$store.getters['pokemon/paginatedList'];

@@ -1,4 +1,7 @@
-import { POKEMON as URL_POKEMON } from 'assets/js/constants/url';
+import {
+  POKEMON as URL_POKEMON,
+  POKEMON_SPECIES as URL_POKEMON_SPECIES
+} from 'assets/js/constants/url';
 import isNil from 'lodash/isNil';
 import isEmpty from 'lodash/isEmpty';
 import findIndex from 'lodash/findIndex';
@@ -177,7 +180,16 @@ export const actions = {
    * @param {int} id
    * @return {Promise|*}
    */
-  getItem (context, {id}) {
+  getPokemon (context, {id}) {
     return this.$axios({url: `${URL_POKEMON}/${id}`, method: 'GET'});
+  },
+
+  /**
+   * @param {Object} context
+   * @param {int} id
+   * @return {Promise|*}
+   */
+  getPokemonSpecies (context, {id}) {
+    return this.$axios({url: `${URL_POKEMON_SPECIES}/${id}`, method: 'GET'});
   }
 };

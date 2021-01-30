@@ -59,6 +59,7 @@ import Particles from 'particlesjs';
 import isNil from 'lodash/isNil';
 import isEmpty from 'lodash/isEmpty';
 import startCase from 'lodash/startCase';
+import forEach from 'lodash/forEach';
 import PokemonDetails from '@/components/PokemonDetails';
 
 export default {
@@ -166,6 +167,24 @@ export default {
      */
     handleClickBackToList () {
       this.$router.push({name: 'index'});
+    },
+
+    /**
+     * @return {void}
+     */
+    loadPokemonData () {
+      let promises = [];
+      promises.push(this.$store.dispatch('pokemon/getPokemon', {id: this.pokemonId}));
+      promises.push(this.$store.dispatch('pokemon/getPokemonSpecies', {id: this.pokemonId}));
+
+      Promise.all(promises).then((responses) => {
+        forEach(responses, (r) => {
+          this.pokemonData = {
+            ...this.pokemonData,
+            ...r.data
+          }
+        })
+      });
     }
   },
 
@@ -177,6 +196,7 @@ export default {
   mounted () {
     this.activePokemon = this.$store.getters['pokemon/activePokemon'];
     const particleEl = this.getBem(this.blockClass, 'particle-background');
+    this.loadPokemonData();
 
     Particles.init({
       selector: `.${particleEl}`,

@@ -1,6 +1,6 @@
 <template>
   <div :class="[getBem(blockClass), typeBgColor]">
-    <canvas :class="getBem(blockClass, 'particle-background')"></canvas>
+    <particle-background/>
     <div :class="getBem(blockClass, 'pokeball-overlay')">
       <img
         src="/images/pokeball-silhoutte-white.png"
@@ -63,7 +63,6 @@
 
 <script>
 import { POKEMON_ART } from 'assets/js/constants/url';
-import Particles from 'particlesjs';
 import isNil from 'lodash/isNil';
 import isEmpty from 'lodash/isEmpty';
 import startCase from 'lodash/startCase';
@@ -71,6 +70,7 @@ import forEach from 'lodash/forEach';
 import map from 'lodash/map';
 import forOwn from 'lodash/forOwn';
 import PokemonDetails from '@/components/PokemonDetails';
+import ParticleBackground from '@/components/ParticleBackground';
 
 function getEvolutionRecursive (obj, result = []) {
   forOwn(obj, (v, k) => {
@@ -97,7 +97,8 @@ export default {
   |--------------------------------------------------------------------------
   */
   components: {
-    PokemonDetails
+    PokemonDetails,
+    ParticleBackground
   },
 
   /*
@@ -294,24 +295,14 @@ export default {
   */
   mounted () {
     this.activePokemon = this.$store.getters['pokemon/activePokemon'];
-    const particleEl = this.getBem(this.blockClass, 'particle-background');
     this.loadPokemonData();
-
-    Particles.init({
-      selector: `.${particleEl}`,
-      color: '#ffff',
-      maxParticles: 300,
-      minDistance: 70,
-      // connectParticles: true,
-      sizeVariations: 5,
-      speed: .2
-    });
   }
 }
 </script>
 
 <style lang="scss">
 .pokemon-id {
+  overflow: hidden;
   position: relative;
   width: 100%;
   height: 100vh;

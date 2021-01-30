@@ -50,6 +50,6 @@ You can click on the tabs (About, Stats, Evolution, Moves) in order to view each
 
 #### Evolution Thumbnails
 
-If you're in the Evolution Tab, click the thumbnails will redirect you to the Details page of the clicked Pokemon.
+If you're in the Evolution Tab, clicking the thumbnails will redirect you to the Details page of the clicked Pokemon.
 
 

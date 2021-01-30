@@ -1,6 +1,7 @@
 import { POKEMON as URL_POKEMON } from 'assets/js/constants/url';
 import isNil from 'lodash/isNil';
 import isEmpty from 'lodash/isEmpty';
+import findIndex from 'lodash/findIndex';
 
 /*
 |--------------------------------------------------------------------------
@@ -8,7 +9,26 @@ import isEmpty from 'lodash/isEmpty';
 |--------------------------------------------------------------------------
 */
 export const state = () => ({
+
+  /**
+   * @var [{
+   *   id: {int}
+   *   name: {string}
+   *   types: {array}
+   * }]
+   */
   fullList: [],
+
+  /**
+   * @var {
+   *   id: {int}
+   *   name: {string}
+   *   types: {array}
+   *   arrayIndex: {int}
+   * }
+   */
+  activePokemon: {},
+
   listPerPage: 12,
   listCurrentPage: 1
 });
@@ -50,7 +70,13 @@ export const getters = {
     return to < state.fullList.length
            ? state.fullList.slice(0, to)
            : state.fullList;
-  }
+  },
+
+  /**
+   * @param {object} state
+   * @return {object}
+   */
+  activePokemon: (state) => state.activePokemon
 };
 
 /*
@@ -74,6 +100,18 @@ export const mutations = {
    */
   setListPage (state, page) {
     state.listCurrentPage = page;
+  },
+
+  /**
+   * @param {object} state
+   * @param {int} id
+   */
+  setActivePokemon (state, id) {
+    const arrayIndex = findIndex(state.fullList, (x) => x.id === id);
+    state.activePokemon = {
+      ...state.fullList[arrayIndex],
+      arrayIndex
+    }
   }
 };
 
@@ -89,13 +127,15 @@ export const actions = {
    * @return {Promise|*}
    */
   listAll (context) {
-    return this.$axios({
-      url: '/json/pokemons.json',
-      method: 'GET'
-    }).then((r) => {
-      context.commit('setFullList', r.data);
+    if (context.getters['fullList'].length === 0) {
+      return this.$axios({
+        url: '/json/pokemons.json',
+        method: 'GET'
+      }).then((r) => {
+        context.commit('setFullList', r.data);
 
-    }).catch((e) => console.error(e));
+      }).catch((e) => console.error(e));
+    }
   },
 
   /**

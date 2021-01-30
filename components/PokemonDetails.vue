@@ -106,6 +106,7 @@ import isNil from 'lodash/isNil';
 import isEmpty from 'lodash/isEmpty';
 import map from 'lodash/map';
 import startCase from 'lodash/startCase';
+import forEach from 'lodash/forEach';
 import { POKEMON_ART } from 'assets/js/constants/url';
 
 const TABS = {
@@ -154,11 +155,20 @@ export default {
      * @returns {string}
      */
     description () {
-      const entries = this.pokemon.flavor_text_entries;
-      if (!isEmpty(entries)) {
-        let text = entries[0].flavor_text;
-        text = text.split('\n').join(' ');
-        text = text.split('\f').join(' ');
+      const verbiages = this.pokemon.flavor_text_entries;
+      if (!isEmpty(verbiages)) {
+        let text = '';
+
+        forEach(verbiages, (v) => {
+          if (v.language.name === 'en') {
+            text = v.flavor_text;
+            text = text.split('\n').join(' ');
+            text = text.split('\f').join(' ');
+
+            return false; // Break the forEach loop
+          }
+        });
+
         return text;
       } else {
         return '';

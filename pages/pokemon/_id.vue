@@ -42,6 +42,14 @@
           <h1>
             {{ startCase(activePokemon.name) }}
           </h1>
+          <div :class="[
+            getBem(blockClass, 'verbiage-types'),
+            typeColor
+          ]">
+            <span v-for="type in activePokemon.types">
+              {{ type }}
+            </span>
+          </div>
           <div :class="getBem(blockClass, 'verbiage-details')">
             <pokemon-details
               :pokemon="pokemonData"
@@ -101,6 +109,9 @@ export default {
       return parseInt(this.$route.params.id);
     },
 
+    /**
+     * @returns {string}
+     */
     typeBgColor () {
       if (
         !isEmpty(this.activePokemon)
@@ -109,6 +120,22 @@ export default {
       ) {
         const firstType = this.activePokemon.types[0];
         return !isNil(firstType) ? `type-${firstType}-bg-color` : '';
+      } else {
+        return '';
+      }
+    },
+
+    /**
+     * @returns {string}
+     */
+    typeColor () {
+      if (
+        !isEmpty(this.activePokemon)
+        && !isNil(this.activePokemon.types)
+        && !isEmpty(this.activePokemon.types)
+      ) {
+        const firstType = this.activePokemon.types[0];
+        return !isNil(firstType) ? `type-${firstType}-color` : '';
       } else {
         return '';
       }
@@ -330,6 +357,23 @@ export default {
 
       h3 {
         font-size: 32px;
+      }
+    }
+
+    &-types {
+      text-align: right;
+      padding-top: 5px;
+
+      span {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 2px;
+        padding: 5px 7px;
+        background-color: #fff;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 12px;
+        text-transform: uppercase;
       }
     }
 

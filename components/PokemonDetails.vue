@@ -102,6 +102,7 @@
 </template>
 
 <script>
+import isNil from 'lodash/isNil';
 import isEmpty from 'lodash/isEmpty';
 import map from 'lodash/map';
 import startCase from 'lodash/startCase';
@@ -136,7 +137,7 @@ export default {
   data () {
     return {
       blockClass: 'pokemon-details',
-      activeTab: TABS.EVOLUTION,
+      activeTab: TABS.ABOUT,
       TABS,
       POKEMON_ART
     }
@@ -186,9 +187,13 @@ export default {
      * @return {string}
      */
     abilities () {
-      return this.pokemon.abilities.length > 0
-             ? map(this.pokemon.abilities, (x) => x.ability.name).join(', ')
-             : ''
+      const abilities = this.pokemon.abilities;
+
+      if (!isNil(abilities) && !isEmpty(abilities)) {
+        return map(this.pokemon.abilities, (x) => x.ability.name).join(', ');
+      } else {
+        return '';
+      }
     },
 
     /**

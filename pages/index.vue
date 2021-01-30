@@ -169,9 +169,7 @@ export default {
 
   &__load-more-button {
     box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @extend .flex, .flex-center;
     margin: 20px auto;
     background-color: $primary-color;
     color: #fff;
@@ -193,8 +191,7 @@ export default {
 
 .pokemon-card {
   &-container {
-    display: flex;
-    flex-wrap: wrap;
+    @extend .flex;
   }
 
   width: calc(100% / 4);

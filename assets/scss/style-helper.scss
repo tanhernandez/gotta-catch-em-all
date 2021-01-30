@@ -17,6 +17,23 @@ a, a:hover, a:focus, a:active, a:visited {
   text-decoration: none;
 }
 
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flew-grow {
+  & > div {
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
 .type-normal-color {
   color: $type-normal;
 }

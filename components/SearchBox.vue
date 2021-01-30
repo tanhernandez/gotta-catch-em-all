@@ -123,8 +123,7 @@ export default {
 <style lang="scss">
 .search-box {
   position: relative;
-  display: flex;
-  flex-wrap: wrap;
+  @extend .flex;
 
   &__icon {
     position: absolute;

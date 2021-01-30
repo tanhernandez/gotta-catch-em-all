@@ -11,23 +11,25 @@
           alt="pokeball-silhoutte-white.png"
         >
       </div>
-      <div :class="getBem(blockClass, 'thumbnail')">
-        <img :src="`${POKEMON_ART}/${pokemon.id}.png`" :alt="pokemon.name">
-      </div>
       <div :class="getBem(blockClass, 'details')">
-        <ul>
-          <li :class="getBem(blockClass, 'id')">
-            # {{ pokemon.id }}
-          </li>
-          <li :class="getBem(blockClass, 'name')">
-            {{ startCase(pokemon.name) }}
-          </li>
-          <li :class="getBem(blockClass, 'types')">
+        <div :class="getBem(blockClass, 'thumbnail')">
+          <img :src="`${POKEMON_ART}/${pokemon.id}.png`" :alt="pokemon.name">
+        </div>
+        <div :class="getBem(blockClass, 'pokemon-props')">
+          <ul>
+            <li :class="getBem(blockClass, 'id')">
+              # {{ pokemon.id }}
+            </li>
+            <li :class="getBem(blockClass, 'name')">
+              {{ startCase(pokemon.name) }}
+            </li>
+            <li :class="getBem(blockClass, 'types')">
             <span v-for="type in pokemon.types" :class="typeTextColor">
               {{ type }}
             </span>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -148,6 +150,10 @@ export default {
   }
 
   &__details {
+    padding-top: 7px;
+  }
+
+  &__pokemon-props {
     color: #fff;
     text-align: center;
 

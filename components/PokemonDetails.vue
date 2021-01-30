@@ -56,7 +56,8 @@
                 :class="getBem(blockClass, `stats-${stat.name}`)"
               >
                 <div :class="getBem(blockClass, 'stats-score')">
-                  {{ stat.score }}
+                  <span>{{ formatStatName(stat.name) }}</span>
+                  <span>{{ stat.score }}</span>
                 </div>
                 <div :class="getBem(blockClass, 'stats-icon')">
                   <img
@@ -256,6 +257,21 @@ export default {
      */
     handleClickEvo (id) {
       this.$router.push({name: 'pokemon-id', params: {id}});
+    },
+
+    /**
+     * @param {string} statName
+     * @return {string}
+     */
+    formatStatName (statName) {
+      if (
+        statName === 'special-attack'
+        || statName === 'special-defense'
+      ) {
+        statName = statName.replace('special', 's ');
+      }
+
+      return statName.toUpperCase();
     }
   }
 }
@@ -343,14 +359,25 @@ export default {
     &-score {
       color: $gray3;
       font-weight: bold;
-      font-size: 40px;
+
+      span {
+        display: block;
+
+        &:nth-child(1) {
+          padding-bottom: 5px;
+        }
+
+        &:nth-child(2) {
+          font-size: 40px;
+        }
+      }
     }
 
     &-icon img {
       width: 48px;
       height: 48px;
       padding-top: 10px;
-      padding-bottom: 40px;
+      padding-bottom: 20px;
     }
   }
 

@@ -55,15 +55,15 @@
                 v-for="stat in stats"
                 :class="getBem(blockClass, `stats-${stat.name}`)"
               >
-                <div :class="getBem(blockClass, 'stats-score')">
-                  <span>{{ formatStatName(stat.name) }}</span>
-                  <span>{{ stat.score }}</span>
-                </div>
                 <div :class="getBem(blockClass, 'stats-icon')">
                   <img
                     :src="`/images/${stat.name}-icon.svg`"
                     :alt="`${stat.name}-icon.svg`"
                   >
+                </div>
+                <div :class="getBem(blockClass, 'stats-score')">
+                  <span>{{ formatStatName(stat.name) }}</span>
+                  <span>{{ stat.score }}</span>
                 </div>
               </li>
             </ul>
@@ -345,7 +345,7 @@ export default {
   }
 
   &__stats {
-    padding: 30px 0 0 0;
+    padding: 15px 0 0 0;
     margin: 0;
     list-style: none;
     @extend .flex, .flex-center;
@@ -369,6 +369,7 @@ export default {
 
         &:nth-child(2) {
           font-size: 40px;
+          padding-bottom: 30px;
         }
       }
     }
@@ -376,8 +377,8 @@ export default {
     &-icon img {
       width: 48px;
       height: 48px;
-      padding-top: 10px;
-      padding-bottom: 20px;
+      padding-top: 0;
+      padding-bottom: 0;
     }
   }
 

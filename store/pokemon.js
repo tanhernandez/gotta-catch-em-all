@@ -76,7 +76,41 @@ export const getters = {
    * @param {object} state
    * @return {object}
    */
-  activePokemon: (state) => state.activePokemon
+  activePokemon: (state) => state.activePokemon,
+
+  /**
+   * @param {object} state
+   * @return {object|null}
+   */
+  prevPokemon (state) {
+    if (state.activePokemon.arrayIndex > 0) {
+      const arrayIndex = state.activePokemon.arrayIndex - 1;
+      return {
+        ...state.fullList[arrayIndex],
+        arrayIndex
+      }
+
+    } else {
+      return null;
+    }
+  },
+
+  /**
+   * @param {object} state
+   * @return {object|null}
+   */
+  nextPokemon (state) {
+    if (state.activePokemon.arrayIndex < state.fullList.length) {
+      const arrayIndex = state.activePokemon.arrayIndex + 1;
+      return {
+        ...state.fullList[arrayIndex],
+        arrayIndex
+      }
+
+    } else {
+      return null;
+    }
+  }
 };
 
 /*

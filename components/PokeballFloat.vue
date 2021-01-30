@@ -41,7 +41,7 @@ export default {
   computed: {
 
     /**
-     * @returns {string}
+     * @return {string}
      */
     imgSrc () {
       return this.color === 'black'
@@ -50,7 +50,7 @@ export default {
     },
 
     /**
-     * @returns {object}
+     * @return {object}
      */
     imgStyle () {
       return this.color === 'black'

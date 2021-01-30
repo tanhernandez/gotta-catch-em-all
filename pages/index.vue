@@ -90,7 +90,7 @@ export default {
   computed: {
 
     /**
-     * @returns {array}
+     * @return {array}
      */
     formattedList () {
       if (this.searchDebounced !== '') {

@@ -74,7 +74,7 @@ export default {
   computed: {
 
     /**
-     * @returns {string}
+     * @return {string}
      */
     typeBgColor () {
       const firstType = this.pokemon.types[0];

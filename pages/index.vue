@@ -26,6 +26,7 @@
               v-for="pokemon in formattedList"
               :key="pokemon.id"
               :pokemon="pokemon"
+              @click="handleClickPokemonCard(pokemon.id)"
             />
           </div>
         </template>
@@ -119,6 +120,14 @@ export default {
       setTimeout(() => {
         window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
       }, 300);
+    },
+
+    /**
+     * @param {int} id
+     * @return {void}
+     */
+    handleClickPokemonCard (id) {
+      this.$router.push({path: `/pokemon/${id}`});
     }
   },
 

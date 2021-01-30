@@ -1,5 +1,5 @@
 <template>
-  <div :class="getBem(blockClass)">
+  <div :class="getBem(blockClass)" @click="handleComponentClick">
     <div
       :class="[
         getBem(blockClass, 'wrapper'), typeBgColor
@@ -93,7 +93,14 @@ export default {
   |--------------------------------------------------------------------------
   */
   methods: {
-    startCase
+    startCase,
+
+    /**
+     * @return {void}
+     */
+    handleComponentClick () {
+      this.$emit('click');
+    }
   }
 }
 </script>

@@ -118,7 +118,7 @@ export default {
       this.setFormattedList();
       setTimeout(() => {
         window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
-      }, 500);
+      }, 300);
     }
   },
 

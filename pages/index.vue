@@ -55,6 +55,7 @@ import PokemonCard from '~/components/PokemonCard';
 import PokeballFloat from '~/components/PokeballFloat';
 import filter from 'lodash/filter';
 import includes from 'lodash/includes';
+import eventBus from 'assets/js/helpers/eventBus';
 
 export default {
 
@@ -127,7 +128,15 @@ export default {
      * @return {void}
      */
     handleClickPokemonCard (id) {
+      this.$store.commit('pokemon/setActivePokemon', id);
       this.$router.push({path: `/pokemon/${id}`});
+    },
+
+    /**
+     * @return {void}
+     */
+    handleEventFullListLoaded () {
+      this.setFormattedList();
     }
   },
 
@@ -137,9 +146,16 @@ export default {
   |--------------------------------------------------------------------------
   */
   mounted () {
-    this.$store.dispatch('pokemon/listAll').then(() => {
-      this.setFormattedList();
-    });
+    eventBus.$on('FULL_LIST_LOADED', this.handleEventFullListLoaded);
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Component > beforeDestroy
+  |--------------------------------------------------------------------------
+  */
+  beforeDestroy () {
+    eventBus.$off('FULL_LIST_LOADED', this.handleEventFullListLoaded);
   }
 }
 </script>

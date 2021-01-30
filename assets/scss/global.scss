@@ -1,0 +1,17 @@
+html {
+  font-family: $primary-font-family;
+  color: $text-color;
+  overflow-x: hidden;
+
+  div {
+    box-sizing: border-box;
+  }
+}
+
+input, button, a, a:hover, a:focus, a:active, a:visited {
+  outline: 0;
+}
+
+a, a:hover, a:focus, a:active, a:visited {
+  text-decoration: none;
+}

@@ -28,6 +28,7 @@ export default {
     scss: [
       '~/assets/scss/normalize.scss',
       '~/assets/scss/variables.scss',
+      '~/assets/scss/global.scss',
       '~/assets/scss/style-helper.scss'
     ]
   },

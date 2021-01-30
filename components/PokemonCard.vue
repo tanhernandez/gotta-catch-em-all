@@ -11,7 +11,7 @@
           alt="pokeball-silhoutte-white.png"
         >
       </div>
-      <div :class="getBem(blockClass, 'details')">
+      <div :class="getBem(blockClass, 'content')">
         <div :class="getBem(blockClass, 'thumbnail')">
           <img :src="`${POKEMON_ART}/${pokemon.id}.png`" :alt="pokemon.name">
         </div>
@@ -156,7 +156,7 @@ export default {
     }
   }
 
-  &__details {
+  &__content {
     padding-top: 7px;
   }
 

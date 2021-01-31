@@ -16,7 +16,7 @@ export default {
   */
   mounted () {
     this.$store.dispatch('pokemon/listAll').then(() => {
-      eventBus.$emit('FULL_LIST_LOADED');
+      eventBus.$emit('FULL_LIST_LOADED'); // Shows the possibility of emitting event globally.
     });
   }
 }

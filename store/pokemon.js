@@ -168,7 +168,7 @@ export const actions = {
   listAll (context) {
     if (context.getters['fullList'].length === 0) {
       return this.$axios({
-        url: '/json/pokemons.json',
+        url: '/json/pokemons.json', // Scraped custom pokemon list data using NodeJS to get necessary values.
         method: 'GET'
       }).then((r) => {
         context.commit('setFullList', r.data);
